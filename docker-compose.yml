@@ -1,0 +1,31 @@
+version: '3'
+
+networks:
+  petshop-network:
+
+services:
+  petshop-consul:
+      image: consul
+      restart: always
+      networks:
+          - petshop-network
+      environment:
+        CONSUL_BIND: 0.0.0.0
+        CONSUL_CLIENT: 0.0.0.0
+      ports:
+        - 8505:8500
+  petshop-mysql:
+    image: mysql:5.7
+    environment:
+      MYSQL_ROOT_PASSWORD: dev
+      DB_USER: root
+      USER_PASSWD: dev
+    tty: true
+    ports:
+      - '3306:3306'
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+    volumes:
+      - ./Db/docker-entrypoint-initdb.d:/docker-entrypoint-initdb.d
+
