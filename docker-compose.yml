@@ -16,6 +16,8 @@ services:
         - 8505:8500
   petshop-mysql:
     image: mysql:5.7
+    networks:
+          - petshop-network
     environment:
       MYSQL_ROOT_PASSWORD: dev
       DB_USER: root
